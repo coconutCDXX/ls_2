@@ -6,7 +6,7 @@
 /*   By: cwartell <cwartell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 14:30:03 by cwartell          #+#    #+#             */
-/*   Updated: 2019/04/05 19:00:23 by cwartell         ###   ########.fr       */
+/*   Updated: 2019/04/08 19:05:49 by cwartell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,11 @@ typedef struct		s_files
 typedef struct stat	t_stat;
 
 t_filename*	av_to_list(char **av);
+// void		print_invalid(t_filename **list, t_opt options);
+void	print_invalid(t_filename **list, t_opt options);
+int		is_exist(t_bool a, t_bool b);
+void	swap_node(void** list, int (*fun)(void*, ...));
+
 
 
 
