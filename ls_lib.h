@@ -6,7 +6,7 @@
 /*   By: cwartell <cwartell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 14:30:03 by cwartell          #+#    #+#             */
-/*   Updated: 2019/04/08 19:05:49 by cwartell         ###   ########.fr       */
+/*   Updated: 2019/04/09 19:56:02 by cwartell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ typedef struct	s_options
 
 typedef struct		s_info
 {
-	t_bool			is_fold;
+	t_bool			is_dir;
 	t_bool			is_exist;
 	int				block_cont;
 	char			*str_rights;
@@ -84,7 +84,7 @@ typedef struct		s_info
 	int				bytes;
 	// int				minor;
 	// t_boolean		device;
-	// time_t			time_sort;
+	time_t			time_sort;
 	char			*date;
 	char			*filename;
 	// char			*linkedfile;
@@ -93,23 +93,28 @@ typedef struct		s_info
 	struct s_info	*tree;
 }					t_info;
 
-typedef struct		s_files
-{
-	char			*filename;
-	t_bool			is_fold;
-	t_bool			is_exist;
-	struct s_files	*next;
-}					t_filename;
+// typedef struct		s_files
+// {
+// 	char			*filename;
+// 	t_bool			is_fold;
+// 	t_bool			is_exist;
+// 	struct s_files	*next;
+// }					t_filename;
 
 typedef struct stat	t_stat;
 
-t_filename*	av_to_list(char **av);
-// void		print_invalid(t_filename **list, t_opt options);
-void	print_invalid(t_filename **list, t_opt options);
-int		is_exist(t_bool a, t_bool b);
-void	swap_node(void** list, int (*fun)(void*, ...));
+t_info*	av_to_list(char **av);
+
+void	invalid_print_pop(t_info **list, t_opt options);
+
+void	file_save_print_pop(t_info **list, t_opt options);
+void	file_save(t_info *cur);
 
 
+int		is_exist(t_info* cur);
+int		is_dir(t_info* cur);
+
+void	swap_node(t_info **list, int (*fun)(t_info* cur));
 
 
 
