@@ -6,7 +6,7 @@
 /*   By: cwartell <cwartell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 14:30:03 by cwartell          #+#    #+#             */
-/*   Updated: 2019/04/09 19:56:02 by cwartell         ###   ########.fr       */
+/*   Updated: 2019/04/10 17:14:58 by cwartell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,9 @@ void	invalid_print_pop(t_info **list, t_opt options);
 
 void	file_save_print_pop(t_info **list, t_opt options);
 void	file_save(t_info *cur);
+void	file_save_more(t_info *cur, t_stat stats);
 
+void	dir_save_print_dive(list, options);
 
 int		is_exist(t_info* cur);
 int		is_dir(t_info* cur);

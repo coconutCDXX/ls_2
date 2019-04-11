@@ -6,7 +6,7 @@
 /*   By: cwartell <cwartell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 14:23:22 by cwartell          #+#    #+#             */
-/*   Updated: 2019/04/09 19:57:57 by cwartell         ###   ########.fr       */
+/*   Updated: 2019/04/10 17:15:02 by cwartell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ int			main(int ac, char **av)
 
 	file_save_print_pop(&list, options);
 	printf("after 1.%s 2.%s 3.%s\n", (list)->filename, (list)->next->filename, (list)->next->next->filename);
-
+	printf("file pop %s\n", list->filename);
 
 	/* 1. sort if needed 2. save treename and all files (saving short or long)
 	3. print and free and pop 4. repeat 2 and 3 until no more to go (if R)  */
 
-	// save_print_folders(list, options);
+	// dir_save_print_dive(list, options);
 	return (0);
 }
 
