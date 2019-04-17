@@ -6,7 +6,7 @@
 /*   By: cwartell <cwartell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 14:30:03 by cwartell          #+#    #+#             */
-/*   Updated: 2019/04/10 17:14:58 by cwartell         ###   ########.fr       */
+/*   Updated: 2019/04/16 22:38:09 by cwartell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ typedef struct		s_info
 	char			*date;
 	char			*filename;
 	// char			*linkedfile;
-	// char			*filepath;
+	char			*filepath;
 	struct s_info	*next;
 	struct s_info	*tree;
 }					t_info;
@@ -111,12 +111,14 @@ void	file_save_print_pop(t_info **list, t_opt options);
 void	file_save(t_info *cur);
 void	file_save_more(t_info *cur, t_stat stats);
 
-void	dir_save_print_dive(list, options);
+void	dir_save_print_dive(t_info *list, t_opt options);
+void	dir_save(char *filepath, t_info *dive);
 
-int		is_exist(t_info* cur);
-int		is_dir(t_info* cur);
+int		is_exist(t_info *cur);
+int		is_dir(t_info *cur);
 
 void	swap_node(t_info **list, int (*fun)(t_info* cur));
+char	*create_filepath(char *name, char *root);
 
 
 
