@@ -6,111 +6,93 @@
 /*   By: cwartell <cwartell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 17:15:08 by cwartell          #+#    #+#             */
-/*   Updated: 2019/04/16 21:12:05 by cwartell         ###   ########.fr       */
+/*   Updated: 2019/04/22 20:57:11 by cwartell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ls_lib.h"
 
-void	dir_save_print_dive(t_info *list, t_opt options)
+void	dir_control(t_info *list, t_opt options)
 {
-	// struct dirent	*read;
-	// DIR				*d;
-	// char			*filepath;
-	// t_info			*dive;
-	// t_info			*deep;
-    //
-	// d = opendir(list->filename);
-	// //if (options R l)
-	// while (list != NULL)
-	// {
-	// 	dive = (t_info*)malloc(sizeof(t_info));
-	// 	while ((read = readdir(d)) != NULL)
-	// 	{
-	// 		filepath = create_filepath(read->d_name, list->filename);
-	// 		// file_save(list);
-	// 		// print
-	// 	}
-    //
-	// }
 	char	*filepath;
 	t_info	*dive;
 
-	dive = (t_info*)malloc(sizeof(t_info));
 	while (list != NULL)
 	{
-		filepath = create_filepath(list->filename, "./");
+		dive = (t_info*)malloc(sizeof(t_info));
+		filepath = dir_path_name(list->filepath, "./", list);
 		dir_save(filepath, dive);
 		file_save(dive);
-		printf("the filepath: %s \n inside a dir: %s %s\n\n", filepath, dive->filename, dive->next->filename);
-		// printf("the rights: %s->%s %s->%s\n\n\n", dive->filename, dive->str_rights, dive->next->filename, dive->next->str_rights);
-		// if (dive != NULL)
-		// 	dir_dive(dive);
+		printf("the filepath: %s \n inside a dir: %s %s\n\n", filepath, dive->filepath, dive->next->filepath);
+		// if (recursive)
+		dir_print_dive(dive, options);
 		list = list->next;
+		free(dive);
 	}
 }
 
-// t_info	*dir_save(char *filepath)
-// {
-// 	struct dirent	*read;
-// 	DIR				*d;
-// 	t_info			*dive;
-// 	t_info			*ret;
-//
-// 	dive = (t_info*)malloc(sizeof(t_info));
-// 	ret = dive;
-// 	d = opendir(filepath);
-// 	while ((read = readdir(d)) != NULL)
-// 	{
-//
-// 		printf("im reading\n");
-// 		dive->filename = create_filepath(read->d_name, filepath);
-// 		// dive->filename = (char*)malloc(sizeof(char) * strlen(read->d_name) + 1);
-// 		// strcpy(dive->filename, read->d_name);
-// 		printf("inside %s: %s\n", filepath, dive->filename);
-// 		dive->next = (t_info*)malloc(sizeof(t_info));
-// 		dive = dive->next;
-// 	}
-// 	dive = NULL;
-// 	closedir(d);
-// 	return (ret);
-// }
+void	dir_print_dive(t_info *dive, t_opt options)
+{
+	char	*filepath;
+	t_info	*deep;
+	//sort
+	while (dive != NULL)
+	{
+		if (dive->str_rights[0] == 'd' && (strcmp(dive->filename, "..") != 0)
+		&& (strcmp(dive->filename, ".") != 0))
+		{
+			deep = (t_info*)malloc(sizeof(t_info));
+			dir_save(dive->filepath, deep);
+			file_save(deep);
+			//print
+			dir_print_dive(deep, options);
+		}
+		dive = dive->next;
+	}
+}
 
 void	dir_save(char *filepath, t_info *dive)
 {
 	struct dirent	*read;
 	DIR				*d;
-	t_bool			a;
+	char			*name;
 
 	d = opendir(filepath);
-	a = TRUE;
-	read = readdir(d);
-	dive->filename = create_filepath(read->d_name, filepath);
-	printf("inside %s: %s\n", filepath, dive->filename);
-	while (a)
+	dive->filepath = NULL;
+	while ((read = readdir(d)) != NULL)
 	{
-		if ((read = readdir(d)) != NULL)
+		if (dive->filepath != NULL)
 		{
 			dive->next = (t_info*)malloc(sizeof(t_info));
 			dive = dive->next;
-			printf("im reading\n");
-			dive->filename = create_filepath(read->d_name, filepath);
-			// dive->filename = (char*)malloc(sizeof(char) * strlen(read->d_name) + 1);
-			// strcpy(dive->filename, read->d_name);
-			printf("inside %s: %s\n", filepath, dive->filename);
 		}
-		else
-			a = FALSE;
+		printf("im reading\n");
+		dive->filepath = dir_path_name(read->d_name, filepath, dive);
+		printf("inside %s: %s\n", filepath, dive->filename);
 	}
 	dive->next = NULL;
 	closedir(d);
 }
-char	*create_filepath(char *name, char *root)
+
+char	*dir_path_name(char *name, char *root, t_info *list)
 {
 	char	*ret;
 
-	ret = (char*)malloc(sizeof(char) * strlen(name) + strlen(root) + 1);
-	strcpy(ret, root);
+	if (!(strcmp(root, "./")))
+	{
+		if (!(strcmp(name, "./")))
+			return(root);
+		ret = (char*)malloc(sizeof(char) * (strlen(name) + strlen(root) + 1));
+		strcpy(ret, root);
+	}
+	else
+	{
+		ret = (char*)malloc(sizeof(char) * (strlen(name) + strlen(root) + 2));
+		strcpy(ret, root);
+		strcat(ret, "/");
+	}
 	strcat(ret, name);
+	list->filename = (char*)malloc(sizeof(char) * (strlen(name) + 1));
+	strcpy(list->filename, name);
 	return (ret);
 }
