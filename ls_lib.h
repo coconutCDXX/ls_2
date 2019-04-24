@@ -6,7 +6,7 @@
 /*   By: cwartell <cwartell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 14:30:03 by cwartell          #+#    #+#             */
-/*   Updated: 2019/04/22 20:59:37 by cwartell         ###   ########.fr       */
+/*   Updated: 2019/04/23 19:07:45 by cwartell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,42 +32,33 @@ typedef enum	e_bools
 
 typedef struct	s_options
 {
-	t_bool			one;
-	t_bool			A;
-	t_bool			B;
-	t_bool			C;
-	t_bool			F;
-	t_bool			G;
-	t_bool			H;
-	t_bool			L;
-	t_bool			O;
-	t_bool			R;
-	t_bool			S;
-	t_bool			T;
-	t_bool			U;
-	t_bool			W;
 	t_bool			a;
-	t_bool			b;
-	t_bool			c;
-	t_bool			d;
-	t_bool			e;
+	t_bool			l;
+	t_bool			ur;
+	t_bool			r;
+	t_bool			t;
+	// t_bool			one;
+	// t_bool			ub;
+	t_bool			uf;
+	t_bool			ug;
+	t_bool			us;
+	// t_bool			ut;
+	t_bool			uu;
+	// t_bool			b;
+	// t_bool			d;
 	t_bool			f;
 	t_bool			g;
-	t_bool			h;
-	t_bool			i;
-	t_bool			k;
-	t_bool			l;
-	t_bool			m;
-	t_bool			n;
+	// t_bool			h;
+	// t_bool			i;
+	// t_bool			k;
+	// t_bool			m;
+	// t_bool			n;
 	t_bool			o;
 	t_bool			p;
-	t_bool			q;
-	t_bool			r;
-	t_bool			s;
-	t_bool			t;
+	// t_bool			q;
+	// t_bool			s;
 	t_bool			u;
-	t_bool			w;
-	t_bool			x;
+	// t_bool			x;
 }				t_opt;
 
 typedef struct		s_info
@@ -104,6 +95,11 @@ typedef struct		s_info
 typedef struct stat	t_stat;
 
 t_info*	av_to_list(char **av);
+t_opt	find_options(char **av);
+t_opt find_more_options(char **av, t_opt opt);
+void	options_override(t_opt options, char **av);
+void	set_options_zero(t_opt options);
+
 
 void	invalid_print_pop(t_info **list, t_opt options);
 

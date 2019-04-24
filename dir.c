@@ -6,7 +6,7 @@
 /*   By: cwartell <cwartell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 17:15:08 by cwartell          #+#    #+#             */
-/*   Updated: 2019/04/22 20:57:11 by cwartell         ###   ########.fr       */
+/*   Updated: 2019/04/23 16:43:51 by cwartell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,14 +77,18 @@ void	dir_save(char *filepath, t_info *dive)
 char	*dir_path_name(char *name, char *root, t_info *list)
 {
 	char	*ret;
+	int		i;
 
-	if (!(strcmp(root, "./")))
-	{
-		if (!(strcmp(name, "./")))
-			return(root);
-		ret = (char*)malloc(sizeof(char) * (strlen(name) + strlen(root) + 1));
-		strcpy(ret, root);
-	}
+	i = 0;
+	// if (!(strcmp(root, "./")))
+	// {
+	// 	if (!(strcmp(name, "./")))
+	// 		return(root);
+	// 	ret = (char*)malloc(sizeof(char) * (strlen(name) + strlen(root) + 1));
+	// 	strcpy(ret, root);
+	// }
+	if (!(strcmp(root, "./")) && !(strcmp(name, "./")))
+		return (root);
 	else
 	{
 		ret = (char*)malloc(sizeof(char) * (strlen(name) + strlen(root) + 2));
@@ -94,5 +98,31 @@ char	*dir_path_name(char *name, char *root, t_info *list)
 	strcat(ret, name);
 	list->filename = (char*)malloc(sizeof(char) * (strlen(name) + 1));
 	strcpy(list->filename, name);
+	while ((list->filename[i]) != '\0')
+	{
+		if ((list->filename[i]) < 0x20 || (list->filename[i]) > 0x7e)
+			(list->filename[i]) = '?';
+		i++;
+	}
 	return (ret);
 }
+//
+// if (!(strcmp(root, "./")) && !(strcmp(name, "./")))
+// 	return (root);
+// else if (!(strcmp(root, "./")))
+// {
+// 	ret = (char*)malloc(sizeof(char) * (strlen(name) + strlen(root) + 1));
+// 	strcpy(ret, root);
+// }
+// else
+// {
+// 	ret = (char*)malloc(sizeof(char) * (strlen(name) + strlen(root) + 2));
+// 	strcpy(ret, root);
+// 	strcat(ret, "/");
+// }
+// char isprint (unsigned char c)
+// {
+//     if ( c >= 0x20 && c <= 0x7e )
+//         return 1;
+//     return 0;
+// }
