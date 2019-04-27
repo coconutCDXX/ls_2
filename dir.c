@@ -6,7 +6,7 @@
 /*   By: cwartell <cwartell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 17:15:08 by cwartell          #+#    #+#             */
-/*   Updated: 2019/04/23 16:43:51 by cwartell         ###   ########.fr       */
+/*   Updated: 2019/04/26 17:50:17 by cwartell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	dir_control(t_info *list, t_opt options)
 		file_save(dive);
 		printf("the filepath: %s \n inside a dir: %s %s\n\n", filepath, dive->filepath, dive->next->filepath);
 		// if (recursive)
-		dir_print_dive(dive, options);
+		// ldir_print_dive(dive, options);
 		list = list->next;
 		free(dive);
 	}

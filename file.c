@@ -6,7 +6,7 @@
 /*   By: cwartell <cwartell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/09 18:46:57 by cwartell          #+#    #+#             */
-/*   Updated: 2019/04/22 20:59:20 by cwartell         ###   ########.fr       */
+/*   Updated: 2019/04/26 18:54:55 by cwartell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,19 @@ void		file_control_pop(t_info **list, t_opt options)
 	/* TODO sort alpha and options and print */
 	t_info *cur;
 	int (*f_isdir)(t_info *cur);
-	// int (f_alpha*)(t_info *cur);
+	int (*f_alpha)(t_info *cur);
 
 	f_isdir = &is_dir;
-	// swap_node(list, f_alpha);
+	f_alpha = &s_alpha;
+	swap_node(list, f_alpha);
+	cur = *list;
+	printf("after swapnodes alpha 1.%s 2.%s 3.%s\n", (cur)->filepath, (cur)->next->filepath, (cur)->next->next->filepath);
+
 	swap_node(list, f_isdir);
 	cur = *list;
-	printf("after swapnodes 1.%s 2.%s 3.%s\n", (cur)->filepath, (cur)->next->filepath, (cur)->next->next->filepath);
+
+	// while (cur->is_dir )
+	printf("after swapnodes dir 1.%s 2.%s 3.%s\n", (cur)->filepath, (cur)->next->filepath, (cur)->next->next->filepath);
 
 	//if (long_listing)
 		file_save(cur);

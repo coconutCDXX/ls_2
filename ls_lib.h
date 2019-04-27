@@ -6,7 +6,7 @@
 /*   By: cwartell <cwartell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 14:30:03 by cwartell          #+#    #+#             */
-/*   Updated: 2019/04/23 19:07:45 by cwartell         ###   ########.fr       */
+/*   Updated: 2019/04/26 15:17:22 by cwartell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,9 @@ typedef struct	s_options
 	// t_bool			s;
 	t_bool			u;
 	// t_bool			x;
+	int				o_pf;
+	int				o_st;
+	int				o_uu;
 }				t_opt;
 
 typedef struct		s_info
@@ -96,9 +99,9 @@ typedef struct stat	t_stat;
 
 t_info*	av_to_list(char **av);
 t_opt	find_options(char **av);
-t_opt find_more_options(char **av, t_opt opt);
-void	options_override(t_opt options, char **av);
-void	set_options_zero(t_opt options);
+t_opt	find_more_options(char **av, t_opt opt);
+t_opt	options_override(t_opt opt, char **av);
+t_opt	set_options_zero(t_opt options);
 
 
 void	invalid_print_pop(t_info **list, t_opt options);
@@ -114,6 +117,7 @@ void	dir_print_dive(t_info *dive, t_opt options);
 
 int		is_exist(t_info *cur);
 int		is_dir(t_info *cur);
+int		s_alpha(t_info* cur);
 
 void	swap_node(t_info **list, int (*fun)(t_info* cur));
 char	*dir_path_name(char *name, char *root, t_info *list);

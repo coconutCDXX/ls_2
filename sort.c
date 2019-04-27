@@ -6,7 +6,7 @@
 /*   By: cwartell <cwartell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 15:22:07 by cwartell          #+#    #+#             */
-/*   Updated: 2019/04/23 15:22:23 by cwartell         ###   ########.fr       */
+/*   Updated: 2019/04/26 19:37:17 by cwartell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,3 +62,74 @@ int		is_exist(t_info* cur)
 	else
 		return (0);
 }
+
+int		s_alpha(t_info* cur)
+{
+	int j;
+	int i;
+
+	j = -1;
+	i = -1;
+	printf("cur %s curnext %s\n", cur->filename, cur->next->filename);
+	if (!(strcmp(cur->filename, ".")) || (!(strcmp(cur->filename, ".."))
+	&& strcmp(cur->next->filename, ".") != 0))
+		return (0);
+	if (!(strcmp(cur->next->filename, ".")) || (!(strcmp(cur->next->filename, ".."))
+	&& strcmp(cur->filename, ".") != 0))
+		return (1);
+	while (cur->filename[++j] == cur->next->filename[++i])
+		;
+	printf("passed these\n");
+	// if (cur->filename[j] >= 65 && cur->filename[j] <= 90 && !(cur->next->filename[i] >= 65 && cur->next->filename[i] <= 90))
+	// {
+	// 	if (cur->filename[j] > cur->next->filename[i])
+	// 		return (1);
+	// 	else
+	// 		return (0);
+	// }
+	// if (cur->next->filename[i] >= 65 && cur->next->filename[i] <= 90 && !(cur->filename[j] >= 65 && cur->filename[j] <= 90))
+	// {
+	// 	if (cur->next->filename[i] < cur->filename[j])
+	// 		return (1);
+	// 	else
+	// 		return (0);
+	// }
+	// if (cur->filename[j] > cur->next->filename[i])
+	// 	return (1);
+	// return (0);
+	if (cur->filename[j] >= 65 && cur->filename[j] <= 90
+	&& !(cur->next->filename[i] >= 65 && cur->next->filename[i] <= 90))
+		if (cur->filename[j] > cur->next->filename[i])
+			return (1);
+	if (cur->next->filename[i] >= 65 && cur->next->filename[i] <= 90
+	&& !(cur->filename[j] >= 65 && cur->filename[j] <= 90))
+		if (cur->next->filename[i] < cur->filename[j])
+			return (1);
+	if (cur->filename[j] > cur->next->filename[i])
+		return (1);
+	return (0);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
