@@ -6,7 +6,7 @@
 /*   By: cwartell <cwartell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/09 18:46:57 by cwartell          #+#    #+#             */
-/*   Updated: 2019/04/26 18:54:55 by cwartell         ###   ########.fr       */
+/*   Updated: 2019/04/26 19:42:35 by cwartell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ void		file_control_pop(t_info **list, t_opt options)
 
 	swap_node(list, f_isdir);
 	cur = *list;
-
-	// while (cur->is_dir )
 	printf("after swapnodes dir 1.%s 2.%s 3.%s\n", (cur)->filepath, (cur)->next->filepath, (cur)->next->next->filepath);
 
 	//if (long_listing)
