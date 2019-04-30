@@ -6,7 +6,7 @@
 /*   By: cwartell <cwartell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 14:30:03 by cwartell          #+#    #+#             */
-/*   Updated: 2019/04/26 15:17:22 by cwartell         ###   ########.fr       */
+/*   Updated: 2019/04/29 19:53:14 by cwartell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ typedef struct	s_options
 	// t_bool			s;
 	t_bool			u;
 	// t_bool			x;
-	int				o_pf;
-	int				o_st;
-	int				o_uu;
+	// int				o_pf;
+	// int				o_st;
+	// int				o_uu;
 }				t_opt;
 
 typedef struct		s_info
@@ -99,8 +99,8 @@ typedef struct stat	t_stat;
 
 t_info*	av_to_list(char **av);
 t_opt	find_options(char **av);
-t_opt	find_more_options(char **av, t_opt opt);
-t_opt	options_override(t_opt opt, char **av);
+t_opt	find_more_options(char **av, t_opt opt, int i);
+t_opt	options_override(t_opt opt, char **av, int i);
 t_opt	set_options_zero(t_opt options);
 
 

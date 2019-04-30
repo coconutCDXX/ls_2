@@ -6,7 +6,7 @@
 /*   By: cwartell <cwartell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 17:15:08 by cwartell          #+#    #+#             */
-/*   Updated: 2019/04/26 17:50:17 by cwartell         ###   ########.fr       */
+/*   Updated: 2019/04/29 20:59:41 by cwartell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,27 @@
 void	dir_control(t_info *list, t_opt options)
 {
 	char	*filepath;
+	int		(*f_alpha)(t_info *cur);
 	t_info	*dive;
 
+	f_alpha = &s_alpha;
 	while (list != NULL)
 	{
 		dive = (t_info*)malloc(sizeof(t_info));
 		filepath = dir_path_name(list->filepath, "./", list);
 		dir_save(filepath, dive);
 		file_save(dive);
-		printf("the filepath: %s \n inside a dir: %s %s\n\n", filepath, dive->filepath, dive->next->filepath);
+		swap_node(&dive, s_alpha);
+		printf("the filepath: %s \n inside a dir: %s %s %s\n\n", filepath, dive->filename, dive->next->filename, dive->next->next->filename);
 		// if (recursive)
-		// ldir_print_dive(dive, options);
+		dir_print_dive(dive, options);
 		list = list->next;
 		free(dive);
 	}
 }
+/*
+** hi
+*/
 
 void	dir_print_dive(t_info *dive, t_opt options)
 {

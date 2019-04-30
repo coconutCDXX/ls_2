@@ -6,7 +6,7 @@
 /*   By: cwartell <cwartell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 14:52:19 by cwartell          #+#    #+#             */
-/*   Updated: 2019/04/26 14:52:33 by cwartell         ###   ########.fr       */
+/*   Updated: 2019/04/29 20:10:33 by cwartell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ t_opt	find_options(char **av)
 	int i;
 
 	i = 1;
-	opt = set_options_zero(opt);
+	memset(&opt, 0, sizeof(opt));
+	// opt = set_options_zero(opt);
 	// printf("%u\n",opt.a);
 	// printf("a %s\n", opt.a ? "TRUE" : "FALSE");
 	// printf("l %s\n" ,opt.l ? "TRUE" : "FALSE");
@@ -33,7 +34,7 @@ t_opt	find_options(char **av)
 	// printf("g %s\n", opt.g ? "TRUE" : "FALSE");
 	// printf("o %s\n", opt.o ? "TRUE" : "FALSE");
 	// printf("p %s\n", opt.p ? "TRUE" : "FALSE");
-	// printf("u %s\n", opt.u ? "TRUE" : "FALSE");
+	// printf("u %s\n\n\n", opt.u ? "TRUE" : "FALSE");
 	if (av[i] == NULL || av[i][0] != '-')
 		return (opt);
 	while (av[i] != NULL && av[i][0] == '-')
@@ -48,20 +49,17 @@ t_opt	find_options(char **av)
 			opt.o = strchr(av[i], 'o') ? TRUE : FALSE;
 		if (opt.p == FALSE)
 			opt.p = strchr(av[i], 'p') ? TRUE : FALSE;
+		opt = find_more_options(av, opt, i);
+		opt = options_override(opt, av, i);
 		i++;
 	}
-	opt = find_more_options(av, opt);
-	opt = options_override(opt, av);
 	return (opt);
 }
 
-t_opt	find_more_options(char **av, t_opt opt)
+t_opt	find_more_options(char **av, t_opt opt, int i)
 {
-	int i;
-
-	i = 1;
-	while (av[i] != NULL && av[i][0] == '-')
-	{
+		if (opt.f == FALSE)
+			opt.f = strchr(av[i], 'f') ? TRUE : FALSE;
 		if (opt.r == FALSE)
 			opt.r = strchr(av[i], 'r') ? TRUE : FALSE;
 		if (opt.t == FALSE)
@@ -78,10 +76,31 @@ t_opt	find_more_options(char **av, t_opt opt)
 			opt.us = strchr(av[i], 'S') ? TRUE : FALSE;
 		if (opt.uu == FALSE)
 			opt.uu = strchr(av[i], 'U') ? TRUE : FALSE;
-		i++;
-	}
 	return (opt);
 }
+
+t_opt	options_override(t_opt opt, char **av, int i)
+{
+	if (strrchr(av[i], 'p') && strrchr(av[i], 'F'))
+		opt.p = (strrchr(av[i], 'p') > strrchr(av[i], 'F')) ? TRUE : FALSE;
+	if (strrchr(av[i], 'p') && strrchr(av[i], 'F'))
+		opt.uf = (strrchr(av[i], 'p') < strrchr(av[i], 'F')) ? TRUE : FALSE;
+	if (strrchr(av[i], 'p') == NULL && strrchr(av[i], 'F'))
+		opt.p = FALSE;
+	if (strrchr(av[i], 'p') && strrchr(av[i], 'F') == NULL)
+		opt.uf = FALSE;
+	if (strrchr(av[i], 'u') && strrchr(av[i], 'U'))
+		opt.u = (strrchr(av[i], 'u') > strrchr(av[i], 'U')) ? TRUE : FALSE;
+	if (strrchr(av[i], 'u') && strrchr(av[i], 'U'))
+		opt.uu = (strrchr(av[i], 'u') < strrchr(av[i], 'U')) ? TRUE : FALSE;
+	if (strrchr(av[i], 'u') == NULL && strrchr(av[i], 'U'))
+		opt.u = FALSE;
+	if (strrchr(av[i], 'u') && strrchr(av[i], 'U') == NULL)
+		opt.uu = FALSE;
+	return(opt);
+}
+
+
 
 t_opt	set_options_zero(t_opt options)
 {
@@ -98,64 +117,9 @@ t_opt	set_options_zero(t_opt options)
 	options.ur = FALSE;
 	options.us = FALSE;
 	options.uu = FALSE;
-	options.o_pf = 2;
-	options.o_st = 2;
-	options.o_uu = 2;
+	// options.o_pf = 2;
+	// options.o_st = 2;
+	// options.o_uu = 2;
 	return(options);
 }
 
-t_opt	options_override(t_opt opt, char **av)
-{
-	// opt.p = strrchr(av[i], 'p') > strrchr(av[i], 'F')
-	// ? TRUE : FALSE;
-	// opt.uf = opt.p ? FALSE : TRUE;
-	int i;
-
-	i = 1;
-	while (av[i] != NULL && av[i][0] == '-')
-	{
-		if (strchr(av[i], 'S'))
-		{
-			opt.us = TRUE;
-			opt.t = FALSE;
-		}
-		if (strchr(av[i], 'f'))
-		{
-			opt.us = FALSE;
-			opt.t = FALSE;
-			opt.r = FALSE;
-			opt.a = FALSE;
-			opt.f = TRUE;
-		}
-		if (strrchr(av[i], 'p') && strrchr(av[i], 'F'))
-			opt.o_pf = (strrchr(av[i], 'p') > strrchr(av[i], 'F')) ? 0 : 1;
-		if (strrchr(av[i], 'p') && strrchr(av[i], 'F') == NULL)
-			opt.o_pf = 0;
-		if (strrchr(av[i], 'p') == NULL && strrchr(av[i], 'F'))
-			opt.o_pf = 1;
-		if (strrchr(av[i], 'u') && strrchr(av[i], 'U'))
-			opt.o_uu = (strrchr(av[i], 'u') > strrchr(av[i], 'U')) ? 0 : 1;
-		if (strrchr(av[i], 'u') && strrchr(av[i], 'U') == NULL)
-			opt.o_uu = 0;
-		if (strrchr(av[i], 'u') == NULL && strrchr(av[i], 'U'))
-			opt.o_uu = 1;
-		// if (strrchr(av[i], 'u') && strrchr(av[i], 'U'))
-		// {
-		// 	opt.u = strrchr(av[i], 'u') > strrchr(av[i], 'U')
-		// 	? TRUE : FALSE;
-		// 	opt.uu = opt.u ? FALSE : TRUE;
-		// }
-		i++;
-	}
-	if (opt.o_pf != 2)
-	{
-		opt.p = opt.o_pf == 0 ? TRUE : FALSE;
-		opt.uf = opt.o_pf == 1 ? TRUE : FALSE;
-	}
-	if (opt.o_uu != 2)
-	{
-		opt.u = opt.o_uu == 0 ? TRUE : FALSE;
-		opt.uu = opt.o_uu == 1 ? TRUE : FALSE;
-	}
-	return(opt);
-}

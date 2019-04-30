@@ -6,7 +6,7 @@
 /*   By: cwartell <cwartell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 14:23:22 by cwartell          #+#    #+#             */
-/*   Updated: 2019/04/26 18:54:54 by cwartell         ###   ########.fr       */
+/*   Updated: 2019/04/29 20:10:50 by cwartell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 
 int			main(int ac, char **av)
 {
-	t_opt 		options;
+	t_opt 	options;
 	t_info	*list;
 
+	// memset(&options, 0, sizeof(options));
 	options = find_options(av);
 	// printf("a %s\n", options.a ? "TRUE" : "FALSE");
 	// printf("l %s\n" ,options.l ? "TRUE" : "FALSE");
