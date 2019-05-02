@@ -6,7 +6,7 @@
 /*   By: cwartell <cwartell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 14:30:03 by cwartell          #+#    #+#             */
-/*   Updated: 2019/04/29 19:53:14 by cwartell         ###   ########.fr       */
+/*   Updated: 2019/05/01 19:53:00 by cwartell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ typedef struct		s_info
 	int				block_cont;
 	char			*str_rights;
 	// int				read_and_stat;
-	int				links;
+	char		links;
 	// int				file_type;
 	char			*user_name;
 	char			*grp_name;
@@ -97,13 +97,13 @@ typedef struct		s_info
 
 typedef struct stat	t_stat;
 
-t_info*	av_to_list(char **av);
 t_opt	find_options(char **av);
 t_opt	find_more_options(char **av, t_opt opt, int i);
 t_opt	options_override(t_opt opt, char **av, int i);
-t_opt	set_options_zero(t_opt options);
+// t_opt	set_options_zero(t_opt options);
 
 
+t_info*	av_to_list(char **av);
 void	invalid_print_pop(t_info **list, t_opt options);
 
 void	file_control_pop(t_info **list, t_opt options);
@@ -112,15 +112,26 @@ void	file_save_more(t_info *cur, t_stat stats);
 
 void	dir_control(t_info *list, t_opt options);
 void	dir_save(char *filepath, t_info *dive);
-void	dir_print_dive(t_info *dive, t_opt options);
+void	dir_dive(t_info *dive, t_opt options);
+void	dir_sort(t_info **dive, t_opt options);
+
 
 
 int		is_exist(t_info *cur);
 int		is_dir(t_info *cur);
 int		s_alpha(t_info* cur);
+int		s_time(t_info *cur);
+int		s_nosort(t_info *cur);
+int		s_size(t_info *cur);
+
 
 void	swap_node(t_info **list, int (*fun)(t_info* cur));
 char	*dir_path_name(char *name, char *root, t_info *list);
+void	list_sort(t_info **dive, t_opt options, int a);
+void	sort_rev(t_info **dive);
+
+void	print_list(t_info *cur, t_opt options, int a);
+
 
 
 

@@ -6,7 +6,7 @@
 /*   By: cwartell <cwartell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/23 15:22:07 by cwartell          #+#    #+#             */
-/*   Updated: 2019/04/29 20:25:41 by cwartell         ###   ########.fr       */
+/*   Updated: 2019/05/01 19:04:03 by cwartell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,21 +46,31 @@ void	swap_node(t_info** list, int (*f_exist)(t_info* cur))
 	}
 }
 
-int		is_dir(t_info* cur)
+void	list_sort(t_info **dive, t_opt options, int a)
 {
-	if (cur->is_dir == TRUE && cur->next->is_dir == FALSE && cur->next != NULL)
-		return (1);
-	else
-		return (0);
-}
+	int		(*f_alpha)(t_info *cur);
+	int		(*f_size)(t_info *cur);
+	int		(*f_time)(t_info *cur);
+	int		(*f_nosort)(t_info *cur);
 
-int		is_exist(t_info* cur)
-{
-	if (cur->is_exist == TRUE && cur->next->is_exist == FALSE
-		&& cur->next !=NULL)
-		return (1);
-	else
-		return (0);
+	f_alpha = &s_alpha;
+	f_size = &s_size;
+	f_time = &s_time;
+	f_nosort = &s_nosort;
+	if (options.f == TRUE)
+	{
+		if (a == 1)
+			return ;
+		swap_node(dive, f_nosort);
+		return ;
+	}
+	swap_node(dive, f_alpha);
+	if (options.t == TRUE && options.us == FALSE)
+		swap_node(dive, f_time);
+	if (options.us == TRUE)
+		swap_node(dive, f_size);
+	if (options.r == TRUE)
+		sort_rev(dive);
 }
 
 int		s_alpha(t_info* cur)
@@ -110,13 +120,24 @@ int		s_alpha(t_info* cur)
 	return (0);
 }
 
+void		sort_rev(t_info **dive)
+{
+	t_info *cur;
+	t_info *prev;
+	t_info *next;
 
-
-
-
-
-
-
+	cur = *dive;
+	prev = NULL;
+	next = NULL;
+	while (cur != NULL)
+	{
+		next = cur->next;
+		cur->next = prev;
+		prev = cur;
+		cur = next;
+	}
+	*dive = prev;
+}
 
 
 

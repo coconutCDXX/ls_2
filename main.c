@@ -6,7 +6,7 @@
 /*   By: cwartell <cwartell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/05 14:23:22 by cwartell          #+#    #+#             */
-/*   Updated: 2019/04/29 20:10:50 by cwartell         ###   ########.fr       */
+/*   Updated: 2019/05/01 19:31:35 by cwartell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,14 @@ int			main(int ac, char **av)
 	while (*(*av) == '-')
 		av++;
 	list = av_to_list(av);  // List created from av
-	printf(" b4 %s\n", (list)->filepath);
+	// printf(" b4 %s\n", (list)->filepath);
 	invalid_print_pop(&list, options);  // 1. sort/print the bad files 2. free and pop them
-	printf("after invalids 1.%s 2.%s 3.%s\n", (list)->filepath, (list)->next->filepath, (list)->next->next->filepath);
+	// printf("after invalids 1.%s 2.%s 3.%s\n", (list)->filepath, (list)->next->filepath, (list)->next->next->filepath);
 
 	/*print-files-pop: 1.sort files 2. save if long list 3. print 4. free and pop */
 
 	file_control_pop(&list, options);
-	printf("after filesave 1.%s 2.%s 3.%s\n", (list)->filepath, (list)->next->filepath, (list)->next->next->filepath);
+	// printf("after filesave 1.%s 2.%s 3.%s\n", (list)->filepath, (list)->next->filepath, (list)->next->next->filepath);
 	// printf("file pop %s\n", list->filepath);
 
 	/* 1. sort if needed 2. save treename and all files (saving short or long)
@@ -69,15 +69,22 @@ int			main(int ac, char **av)
 void	invalid_print_pop(t_info **list, t_opt options)
 {
 	t_info	*cur;/* Only affected by option f (no sort alpha) */
-	int (*f_exist)(t_info* cur);
+	int (*f_exist)(t_info *cur);
+	int	(*f_alpha)(t_info *cur);
 
 	f_exist = &is_exist;
-	cur = *list;
+	f_alpha = &s_alpha;
+	if (options.f == FALSE)
+		swap_node(list, f_alpha);
 	swap_node(list, f_exist);
-	/* TODO print the invalids (option f different sort then print) */
+	cur = *list;
 	while (cur->is_exist == FALSE)
 	{
-		/* TODO free struct as you pop */
+		// write(1, cur->filename, strlen(cur->filename));
+		// perror("No such file or directory");
+		write(1, "ls:  ", 4);
+		perror(cur->filename);
+		// write(1, "\n", 1);
 		cur = cur->next;
 	}
 	*list = cur;
@@ -101,8 +108,8 @@ t_info*	av_to_list(char **av)
 		list->is_exist = ((stat((av[i]), &stats)) == -1) ? FALSE : TRUE;
 		list->is_dir = (S_ISDIR(stats.st_mode)) && (!(stat((av[i]), &stats)))
 		? TRUE : FALSE;
-		printf("%s %s \t\t D?: %s\n", list->is_exist ? "true" : "false", list->filepath,
-		list->is_dir ? "true" : "false");
+		// printf("%s %s \t\t D?: %s\n", list->is_exist ? "true" : "false", list->filepath,
+		// list->is_dir ? "true" : "false");
 		if (av[i + 1])
 		{
 			list->next = (t_info*)malloc(sizeof(t_info));

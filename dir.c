@@ -6,38 +6,76 @@
 /*   By: cwartell <cwartell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/10 17:15:08 by cwartell          #+#    #+#             */
-/*   Updated: 2019/04/29 20:59:41 by cwartell         ###   ########.fr       */
+/*   Updated: 2019/05/01 19:54:03 by cwartell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ls_lib.h"
 
+/*
+** Dir_control takes *list which has all folders from av or simply ./
+** Creates a new linked list for each folder called *dive
+*/
+
 void	dir_control(t_info *list, t_opt options)
 {
 	char	*filepath;
-	int		(*f_alpha)(t_info *cur);
 	t_info	*dive;
+	t_bool	a;
 
-	f_alpha = &s_alpha;
+	a = TRUE;
 	while (list != NULL)
 	{
 		dive = (t_info*)malloc(sizeof(t_info));
 		filepath = dir_path_name(list->filepath, "./", list);
 		dir_save(filepath, dive);
 		file_save(dive);
-		swap_node(&dive, s_alpha);
-		printf("the filepath: %s \n inside a dir: %s %s %s\n\n", filepath, dive->filename, dive->next->filename, dive->next->next->filename);
-		// if (recursive)
-		dir_print_dive(dive, options);
+		// printf("before sort the filepath: %s \n inside a dir: %s %s %s\n\n", filepath, dive->filename, dive->next->filename, dive->next->next->filename);
+		list_sort(&dive, options, 2);
+		// printf("the filepath: %s \n inside a dir: %s %s %s\n\n", filepath, dive->filename, dive->next->filename, dive->next->next->filename);
+		if (a == FALSE)
+			write(1, "\n", 1);
+		a = FALSE;
+		write(1, list->filepath, strlen(list->filepath));
+		write(1, ":\n", 2);
+		print_list(dive, options, 2);
+		if (options.ur == TRUE)
+			dir_dive(dive, options);
 		list = list->next;
 		free(dive);
 	}
 }
+
+void	print_list(t_info *cur, t_opt options, int a)
+{
+	while (cur != NULL)
+	{
+		if (options.l == TRUE || options.g == TRUE || options.o == TRUE)
+		{
+			write(1, cur->str_rights, 10);
+			write(1, "  ", 2);
+			write(1, &cur->links, sizeof(cur->links));
+			// printf("%d ", cur->links);
+			write(1, cur->user_name, strlen(cur->user_name));
+			write(1, "  ", 2);
+			write(1, cur->grp_name, strlen(cur->grp_name));
+			write(1, "  ", 2);
+			write(1, " \t", 2);
+			write(1, cur->date + 4, 12);
+			write(1, " ", 1);
+		}
+		write(1, cur->filename, strlen(cur->filename));
+		putchar('\n');
+		if (a == 1)
+			return ;
+		cur = cur->next;
+	}
+}
 /*
-** hi
+** dir_dive does the recursion, links to sorting and printing of each DIR
 */
 
-void	dir_print_dive(t_info *dive, t_opt options)
+void	dir_dive(t_info *dive, t_opt options)
 {
 	char	*filepath;
 	t_info	*deep;
@@ -50,12 +88,21 @@ void	dir_print_dive(t_info *dive, t_opt options)
 			deep = (t_info*)malloc(sizeof(t_info));
 			dir_save(dive->filepath, deep);
 			file_save(deep);
-			//print
-			dir_print_dive(deep, options);
+			list_sort(&deep, options, 2);
+			write(1, "\n", 1);
+			write(1, deep->filepath, strlen(deep->filepath));
+			write(1, ":\n", 2);
+			print_list(deep, options, 2);
+			dir_dive(deep, options);
 		}
 		dive = dive->next;
 	}
 }
+
+/*
+** dir_save opens up a DIR and saves all the files into the given linked list
+** also updates the filepath
+*/
 
 void	dir_save(char *filepath, t_info *dive)
 {
@@ -72,9 +119,9 @@ void	dir_save(char *filepath, t_info *dive)
 			dive->next = (t_info*)malloc(sizeof(t_info));
 			dive = dive->next;
 		}
-		printf("im reading\n");
+		// printf("im reading\n");
 		dive->filepath = dir_path_name(read->d_name, filepath, dive);
-		printf("inside %s: %s\n", filepath, dive->filename);
+		// printf("inside %s: %s\n", filepath, dive->filename);
 	}
 	dive->next = NULL;
 	closedir(d);

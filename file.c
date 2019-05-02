@@ -6,7 +6,7 @@
 /*   By: cwartell <cwartell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/09 18:46:57 by cwartell          #+#    #+#             */
-/*   Updated: 2019/04/26 19:42:35 by cwartell         ###   ########.fr       */
+/*   Updated: 2019/05/01 19:53:08 by cwartell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,31 +27,27 @@
 
 void		file_control_pop(t_info **list, t_opt options)
 {
-	/* TODO sort alpha and options and print */
 	t_info *cur;
 	int (*f_isdir)(t_info *cur);
-	int (*f_alpha)(t_info *cur);
 
 	f_isdir = &is_dir;
-	f_alpha = &s_alpha;
-	swap_node(list, f_alpha);
-	cur = *list;
-	printf("after swapnodes alpha 1.%s 2.%s 3.%s\n", (cur)->filepath, (cur)->next->filepath, (cur)->next->next->filepath);
-
+	// printf("after swapnodes alpha 1.%s 2.%s 3.%s\n", (cur)->filepath, (cur)->next->filepath, (cur)->next->next->filepath);
+	list_sort(list, options, 1);
 	swap_node(list, f_isdir);
 	cur = *list;
-	printf("after swapnodes dir 1.%s 2.%s 3.%s\n", (cur)->filepath, (cur)->next->filepath, (cur)->next->next->filepath);
+	// printf("after swapnodes dir 1.%s 2.%s 3.%s\n", (cur)->filepath, (cur)->next->filepath, (cur)->next->next->filepath);
 
-	//if (long_listing)
-		file_save(cur);
-	// file_print(list);
+	file_save(cur);
+	// write(1, "\n", 1);
 	// printf("the rights %s\n%s\n", cur->str_rights, cur->next->str_rights);
 	while (cur->is_dir == FALSE && cur->next != NULL)
 	{
-		/* TODO free struct as you pop */
-		printf("i poped this%s\n", cur->filepath);
+		print_list(cur, options, 1);
+		// printf("i poped this%s\n", cur->filepath);
 		cur = cur->next;
 	}
+	if (*list != cur)
+		write(1, "\n", 1);
 	*list = cur;
 }
 
@@ -64,6 +60,8 @@ void		file_save(t_info *cur)
 	strcpy(cur->date, ctime(&stats.st_mtime));
 	cur->date[24] = '\0';
 	cur->time_sort = stats.st_mtime;
+	cur->links = (int)stats.st_nlink + '0';
+	// printf("%d ", (int)cur->links);
 	cur->str_rights = (char*)malloc(sizeof(char) * 11);
 	cur->str_rights[0] = (S_ISDIR(stats.st_mode)) ? 'd' : '-';
 	cur->str_rights[1] = (stats.st_mode & S_IRUSR) ? 'r' : '-';
@@ -76,8 +74,6 @@ void		file_save(t_info *cur)
 	cur->str_rights[8] = (stats.st_mode & S_IWOTH) ? 'w' : '-';
 	cur->str_rights[9] = (stats.st_mode & S_IXOTH) ? 'x' : '-';
 	cur->str_rights[10] = '\0';
-	printf("the rights: %s->%s \n\n", cur->filepath, cur->str_rights);
-
 	file_save_more(cur, stats);
 	if (cur->next != NULL)
 		file_save(cur->next);

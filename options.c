@@ -6,7 +6,7 @@
 /*   By: cwartell <cwartell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 14:52:19 by cwartell          #+#    #+#             */
-/*   Updated: 2019/04/29 20:10:33 by cwartell         ###   ########.fr       */
+/*   Updated: 2019/05/01 17:47:29 by cwartell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,24 +102,24 @@ t_opt	options_override(t_opt opt, char **av, int i)
 
 
 
-t_opt	set_options_zero(t_opt options)
-{
-	options.a = FALSE;
-	options.g = FALSE;
-	options.l = FALSE;
-	options.o = FALSE;
-	options.p = FALSE;
-	options.r = FALSE;
-	options.t = FALSE;
-	options.u = FALSE;
-	options.uf = FALSE;
-	options.ug = FALSE;
-	options.ur = FALSE;
-	options.us = FALSE;
-	options.uu = FALSE;
-	// options.o_pf = 2;
-	// options.o_st = 2;
-	// options.o_uu = 2;
-	return(options);
-}
+// t_opt	set_options_zero(t_opt options)
+// {
+// 	options.a = FALSE;
+// 	options.g = FALSE;
+// 	options.l = FALSE;
+// 	options.o = FALSE;
+// 	options.p = FALSE;
+// 	options.r = FALSE;
+// 	options.t = FALSE;
+// 	options.u = FALSE;
+// 	options.uf = FALSE;
+// 	options.ug = FALSE;
+// 	options.ur = FALSE;
+// 	options.us = FALSE;
+// 	options.uu = FALSE;
+// 	// options.o_pf = 2;
+// 	// options.o_st = 2;
+// 	// options.o_uu = 2;
+// 	return(options);
+// }
 
